@@ -17,7 +17,7 @@ const validateConfig = (key: string | undefined, name: string): string => {
 }
 
 export const geminiModel = new ChatGoogle({
-    model: "gemini-1.5-flash",
+    model: "gemini-3-flash-preview",
     apiKey: validateConfig(config.GOOGLE_API_KEY, "Google gemini"),
 });
 
@@ -27,7 +27,7 @@ export const mistralaiModel = new ChatMistralAI({
 });
 
 export const cohereModel = new ChatCohere({
-    model: "command-r-plus",
+    model: "command-a-03-2025",
     apiKey: validateConfig(config.COHERE_API_KEY, "Cohore AI"),
 });
 
