@@ -1,13 +1,22 @@
 import express from "express";
-import graphAi from "./ai/graph.ai.js";
-
+import cors from "cors";
+import generateRouter from "./routes/generate.route.js";
+// import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.get("/", async (req, res) => {
-    const result = await graphAi("What is Generative AI In simple way");
-    console.log("Result from Graph:", result); 
-    res.json(result);
-});
+// ── Middleware ──────────────────────────────────────────────
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.json());
 
-export default app
+// ── Routes ──────────────────────────────────────────────────
+app.use("/api", generateRouter);
+
+// ── Health check ─────────────────────────────────────────────
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+
+// ── Error Handling ───────────────────────────────────────────
+// app.use(notFound);
+// app.use(errorHandler);
+
+export default app;
