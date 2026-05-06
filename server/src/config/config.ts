@@ -3,6 +3,7 @@ dotenv.config();
 
 const config = {
   PORT: process.env.PORT || 3000,
+  MONGODB_URI: process.env.MONGODB_URI,
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   MISTRALAI_API_KEY: process.env.MISTRALAI_API_KEY,
   COHERE_API_KEY: process.env.COHERE_API_KEY,

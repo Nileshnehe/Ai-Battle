@@ -7,11 +7,30 @@ const apiClient = axios.create({
 });
 
 /**
- * POST /api/generate
+ * POST /api/chat
  * @param {string} question
- * @returns {Promise<BattleResult>}
+ * @returns {Promise<Chat>}
  */
-export async function postGenerate(question) {
-  const { data } = await apiClient.post('/generate', { question });
-  return data.data; // unwrap { success, data }
+export async function postChat(question) {
+  const { data } = await apiClient.post('/chat', { question });
+  return data.data;
+}
+
+/**
+ * GET /api/chat
+ * @returns {Promise<Chat[]>}
+ */
+export async function getChats() {
+  const { data } = await apiClient.get('/chat');
+  return data.data;
+}
+
+/**
+ * GET /api/chat/:id
+ * @param {string} id
+ * @returns {Promise<Chat>}
+ */
+export async function getChat(id) {
+  const { data } = await apiClient.get(`/chat/${id}`);
+  return data.data;
 }

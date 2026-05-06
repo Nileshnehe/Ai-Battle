@@ -58,7 +58,7 @@ export default function Sidebar({ history, activeHistoryId, onSelectHistory }) {
       <div className="flex-1 overflow-y-auto px-2 pb-4">
         {filtered.length === 0 ? (
           <p className="text-xs px-3 py-6 text-center" style={{ color: 'var(--text-secondary)' }}>
-            {history.length === 0 ? 'No questions yet.' : 'No results found.'}
+            {history.length === 0 ? 'No chats yet.' : 'No results found.'}
           </p>
         ) : (
           <ul className="space-y-0.5">

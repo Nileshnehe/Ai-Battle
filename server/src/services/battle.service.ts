@@ -18,7 +18,7 @@ export interface BattleResult {
  */
 export async function generateBattle(question: string): Promise<BattleResult> {
   const result = await runBattle(question);
-  console.log(result)
+  
   
   return result as BattleResult;
 }

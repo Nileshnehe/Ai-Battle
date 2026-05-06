@@ -86,7 +86,7 @@ export default function BattlePage() {
               color: 'var(--accent)',
             }}
           >
-            🗣️ {result.problem}
+            🗣️ {result.question}
           </div>
 
           {/* Scores summary */}
