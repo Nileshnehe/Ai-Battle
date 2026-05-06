@@ -5,8 +5,8 @@ import graphAi from "./ai/graph.ai.js";
 const app = express();
 
 app.get("/", async (req, res) => {
-    const result = await graphAi("What is DSA");
-    console.log("Result from Graph:", result); // Yeh line terminal par print karegi
+    const result = await graphAi("What is Generative AI In simple way");
+    console.log("Result from Graph:", result); 
     res.json(result);
 });
 
