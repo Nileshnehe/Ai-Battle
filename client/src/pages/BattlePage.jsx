@@ -7,12 +7,12 @@ import { useBattle } from '../hooks/useBattle';
 import useStreamingText from '../hooks/useStreamingText';
 
 export default function BattlePage() {
-  const { status, result, error, isLoading, submitQuestion } = useBattle();
+  const { status, selectedChat, error, isLoading, submitQuestion } = useBattle();
 
   const {
     text: solutionOneText,
     isStreaming: isSolutionOneStreaming,
-  } = useStreamingText(result?.solution_1 ?? '', {
+  } = useStreamingText(selectedChat?.solution_1 ?? '', {
     speed: 26,
     startDelay: 450,
   });
@@ -20,13 +20,13 @@ export default function BattlePage() {
   const {
     text: solutionTwoText,
     isStreaming: isSolutionTwoStreaming,
-  } = useStreamingText(result?.solution_2 ?? '', {
+  } = useStreamingText(selectedChat?.solution_2 ?? '', {
     speed: 34,
     startDelay: 650,
   });
 
   const winner =
-    result?.judge?.solution_1_score >= result?.judge?.solution_2_score
+    selectedChat?.judge?.solution_1_score >= selectedChat?.judge?.solution_2_score
       ? 'solution_1'
       : 'solution_2';
 
@@ -75,7 +75,7 @@ export default function BattlePage() {
       )}
 
       {/* Results */}
-      {status === 'succeeded' && result && (
+      {status === 'succeeded' && selectedChat && (
         <div className="space-y-6">
           {/* Question recap */}
           <div
@@ -86,19 +86,19 @@ export default function BattlePage() {
               color: 'var(--accent)',
             }}
           >
-            🗣️ {result.question}
+            🗣️ {selectedChat.question}
           </div>
 
           {/* Scores summary */}
           <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
             <span>
               🌪️ Mistral:{' '}
-              <strong style={{ color: 'var(--text)' }}>{result.judge.solution_1_score}/10</strong>
+              <strong style={{ color: 'var(--text)' }}>{selectedChat.judge.solution_1_score}/10</strong>
             </span>
             <span className="text-xs">vs</span>
             <span>
               🌊 Cohere:{' '}
-              <strong style={{ color: 'var(--text)' }}>{result.judge.solution_2_score}/10</strong>
+              <strong style={{ color: 'var(--text)' }}>{selectedChat.judge.solution_2_score}/10</strong>
             </span>
           </div>
 
@@ -111,23 +111,23 @@ export default function BattlePage() {
             <AnswerCard
               solutionKey="solution_1"
               displayText={solutionOneText}
-              fullText={result.solution_1}
-              score={result.judge.solution_1_score}
+              fullText={selectedChat.solution_1}
+              score={selectedChat.judge.solution_1_score}
               isWinner={winner === 'solution_1'}
               isStreaming={isSolutionOneStreaming}
             />
             <AnswerCard
               solutionKey="solution_2"
               displayText={solutionTwoText}
-              fullText={result.solution_2}
-              score={result.judge.solution_2_score}
+              fullText={selectedChat.solution_2}
+              score={selectedChat.judge.solution_2_score}
               isWinner={winner === 'solution_2'}
               isStreaming={isSolutionTwoStreaming}
             />
           </div>
 
           {/* Judge */}
-          <JudgeSection judge={result.judge} />
+          <JudgeSection judge={selectedChat.judge} />
         </div>
       )}
 

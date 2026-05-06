@@ -8,18 +8,31 @@ const initialState = {
   historyStatus: 'idle',
   historyError: null,
   history: [],
-  activeHistoryId: null,
+  selectedChat: null,
+  selectedChatId: null,
 };
 
 const battleSlice = createSlice({
   name: 'battle',
   initialState,
   reducers: {
+    setSelectedChat(state, action) {
+      state.selectedChat = action.payload;
+      state.selectedChatId = action.payload?.id || null;
+      state.status = 'succeeded';
+      state.error = null;
+    },
+    clearSelectedChat(state) {
+      state.selectedChat = null;
+      state.selectedChatId = null;
+      state.status = 'idle';
+      state.error = null;
+    },
     loadHistoryItem(state, action) {
       const item = state.history.find((h) => h.id === action.payload);
       if (item) {
-        state.result = item;
-        state.activeHistoryId = item.id;
+        state.selectedChat = item;
+        state.selectedChatId = item.id;
         state.status = 'succeeded';
         state.error = null;
       }
@@ -28,7 +41,8 @@ const battleSlice = createSlice({
       state.result = null;
       state.status = 'idle';
       state.error = null;
-      state.activeHistoryId = null;
+      state.selectedChat = null;
+      state.selectedChatId = null;
     },
   },
   extraReducers: (builder) => {
@@ -49,7 +63,8 @@ const battleSlice = createSlice({
         state.status = 'loading';
         state.error = null;
         state.result = null;
-        state.activeHistoryId = null;
+        state.selectedChat = null;
+        state.selectedChatId = null;
       })
       .addCase(generateBattle.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -64,7 +79,8 @@ const battleSlice = createSlice({
           createdAt: action.payload.createdAt,
         };
         state.history.unshift(newItem);
-        state.activeHistoryId = newItem.id;
+        state.selectedChat = newItem;
+        state.selectedChatId = newItem.id;
       })
       .addCase(generateBattle.rejected, (state, action) => {
         state.status = 'failed';
@@ -76,8 +92,8 @@ const battleSlice = createSlice({
       })
       .addCase(fetchChatById.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.result = action.payload;
-        state.activeHistoryId = action.payload.id;
+        state.selectedChat = action.payload;
+        state.selectedChatId = action.payload.id;
 
         const exists = state.history.some((item) => item.id === action.payload.id);
         if (!exists) {
@@ -91,5 +107,6 @@ const battleSlice = createSlice({
   },
 });
 
-export const { loadHistoryItem, clearResult } = battleSlice.actions;
+export const { setSelectedChat, clearSelectedChat, loadHistoryItem, clearResult } = battleSlice.actions;
 export default battleSlice.reducer;
+
